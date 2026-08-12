@@ -1,0 +1,91 @@
+# Refactoring Dashboard Pages into Modular Component Folders
+
+Refactor each dashboard page in `src/pages/` into its own directory containing the entry point (`index.tsx`) and separate files for individual subcomponents. This improves codebase readability, maintainability, and adheres to structured organization principles.
+
+## User Review Required
+
+> [!NOTE]
+> All page routes in `src/routes/index.tsx` will remain lazy-loaded using `React.lazy`. Because the entry point for each directory is `index.tsx`, the lazy import paths (e.g. `import('../pages/Dashboard')`) will automatically resolve without changing the filename, ensuring zero routing downtime.
+
+## Proposed Changes
+
+### Dashboard Component (`src/pages/Dashboard/`)
+Create a new folder `src/pages/Dashboard/` and split `src/pages/Dashboard.tsx` into:
+- [NEW] `src/pages/Dashboard/index.tsx` — Main dashboard layout.
+- [NEW] `src/pages/Dashboard/WelcomeBanner.tsx` — Premium welcome banner card containing wallet balance.
+- [NEW] `src/pages/Dashboard/MetricsGrid.tsx` — Overview metrics cards (portfolio value, stock holdings, etc.).
+- [NEW] `src/pages/Dashboard/InvestmentPlans.tsx` — Featured investment plans section.
+- [NEW] `src/pages/Dashboard/LedgerActivity.tsx` — Quick ledger activity and partner network referral links.
+- [DELETE] `src/pages/Dashboard.tsx`
+
+---
+
+### Deposit & Withdraw Component (`src/pages/DepositWithdraw/`)
+Create a new folder `src/pages/DepositWithdraw/` and split `src/pages/DepositWithdraw.tsx` into:
+- [NEW] `src/pages/DepositWithdraw/index.tsx` — Main layout wrapper.
+- [NEW] `src/pages/DepositWithdraw/DepositWithdrawForm.tsx` — Secure gateway form.
+- [NEW] `src/pages/DepositWithdraw/InfoPanel.tsx` — Funding instructions and dynamic address/QR graphics.
+- [NEW] `src/pages/DepositWithdraw/ActivityRegistry.tsx` — History of deposit/withdrawal status logs.
+- [DELETE] `src/pages/DepositWithdraw.tsx`
+
+---
+
+### Vehicle Inventory Component (`src/pages/Inventory/`)
+Create a new folder `src/pages/Inventory/` and split `src/pages/Inventory.tsx` into:
+- [NEW] `src/pages/Inventory/index.tsx` — Entry point with search bar, view toggler, and layout.
+- [NEW] `src/pages/Inventory/GridCard.tsx` — Grid car item card.
+- [NEW] `src/pages/Inventory/ListCard.tsx` — List car item card.
+- [NEW] `src/pages/Inventory/FilterPanel.tsx` — Extended filtering panel.
+- [DELETE] `src/pages/Inventory.tsx`
+
+---
+
+### Investments Component (`src/pages/Investments/`)
+Create a new folder `src/pages/Investments/` and split `src/pages/Investments.tsx` into:
+- [NEW] `src/pages/Investments/index.tsx` — Main page wrapper with top-level tabs.
+- [NEW] `src/pages/Investments/InvestDrawer.tsx` — Capital deployment modal/drawer.
+- [NEW] `src/pages/Investments/PlanCard.tsx` — Individual plan card layout.
+- [NEW] `src/pages/Investments/ExplorePlans.tsx` — Subcomponent rendering categories and sorted list cards.
+- [NEW] `src/pages/Investments/MyPortfolio.tsx` — Subcomponent rendering active positions.
+- [NEW] `src/pages/Investments/PerformanceHistory.tsx` — Performance monthly yield chart and maturity ledger.
+- [DELETE] `src/pages/Investments.tsx`
+
+---
+
+### Profile Component (`src/pages/Profile/`)
+Create a new folder `src/pages/Profile/` and split `src/pages/Profile.tsx` into:
+- [NEW] `src/pages/Profile/index.tsx` — Entry point showing editorial user header and navigation tabs.
+- [NEW] `src/pages/Profile/PersonalInformation.tsx` — Form for editing name, email, phone, location.
+- [NEW] `src/pages/Profile/SecuritySettings.tsx` — Password forms and notification toggles.
+- [NEW] `src/pages/Profile/SessionDirectory.tsx` — Terminal sessions log with termination actions.
+- [DELETE] `src/pages/Profile.tsx`
+
+---
+
+### Transactions Component (`src/pages/Transactions/`)
+Create a new folder `src/pages/Transactions/` and split `src/pages/Transactions.tsx` into:
+- [NEW] `src/pages/Transactions/index.tsx` — Main table view layout.
+- [NEW] `src/pages/Transactions/TransactionStats.tsx` — Inflow/Outflow/Net summary statistics widgets.
+- [NEW] `src/pages/Transactions/TransactionFilters.tsx` — Category filters and query search bar.
+- [NEW] `src/pages/Transactions/TransactionTable.tsx` — Main table body.
+- [DELETE] `src/pages/Transactions.tsx`
+
+---
+
+### VIP Memberships Component (`src/pages/VipCards/`)
+Create a new folder `src/pages/VipCards/` and split `src/pages/VipCards.tsx` into:
+- [NEW] `src/pages/VipCards/index.tsx` — Main entry point page.
+- [NEW] `src/pages/VipCards/MockCard.tsx` — Graphic credit card visualization module.
+- [NEW] `src/pages/VipCards/MembershipTierCard.tsx` — Card pricing, features, and selection button.
+- [DELETE] `src/pages/VipCards.tsx`
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- Run `npx tsc --noEmit` to ensure there are no compilation issues across imports and split components.
+- Run `npm run lint` to ensure zero syntax or standard linter issues.
+
+### Manual Verification
+- Navigate through all pages (Dashboard, Statement, Inventory, VIP, Account, Deposit, Investments) on the development server to verify they load and operate identically.
